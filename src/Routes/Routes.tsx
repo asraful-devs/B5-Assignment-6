@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router';
 import App from '../App';
+import { role } from '../Constants/role';
 import DashboardLayout from '../Layout/DashboardLayout';
 import AboutPage from '../Page/AboutPage';
 import DrivePage from '../Page/DrivePage';
@@ -11,10 +12,14 @@ import MePage from '../Page/MePage';
 import RegisterPage from '../Page/RegisterPage';
 import RidePage from '../Page/RidePage';
 import UnauthorizedPage from '../Page/UnauthorizedPage';
+import type { TRole } from '../Types/Index';
 import { generateRoutes } from '../Utils/generateRoutes';
+import { withAuth } from '../Utils/withAuth';
 import { adminSidebarItems } from './adminSidebarItems';
 import DrivePrivateRoute from './DrivePrivateRoute';
+import { driverSidebarItems } from './driverSidebarItems';
 import RidePrivateRoute from './RidePrivateRoute';
+import { riderSidebarItems } from './riderSideBarItems';
 
 export const router = createBrowserRouter([
     {
@@ -66,21 +71,38 @@ export const router = createBrowserRouter([
         ],
     },
     {
-        Component: DashboardLayout,
-        path: '/dashboard',
+        Component: withAuth(DashboardLayout, role.admin as TRole),
+        path: '/dashboard/admin',
         children: [
-            { index: true, element: <Navigate to='/dashboard/analytics' /> },
+            {
+                index: true,
+                element: <Navigate to='/dashboard/admin/analytics' />,
+            },
             ...generateRoutes(adminSidebarItems),
         ],
     },
-    // {
-    //     Component: withAuth(DashboardLayout, role.rider as TRole),
-    //     path: '/user',
-    //     children: [
-    //         { index: true, element: <Navigate to='/user/bookings' /> },
-    //         ...generateRoutes(userSidebarItems),
-    //     ],
-    // },
+    {
+        Component: withAuth(DashboardLayout, role.rider as TRole),
+        path: '/dashboard/rider',
+        children: [
+            {
+                index: true,
+                element: <Navigate to='/dashboard/rider/analytics' />,
+            },
+            ...generateRoutes(riderSidebarItems),
+        ],
+    },
+    {
+        Component: withAuth(DashboardLayout, role.driver as TRole),
+        path: '/dashboard/driver',
+        children: [
+            {
+                index: true,
+                element: <Navigate to='/dashboard/driver/analytics' />,
+            },
+            ...generateRoutes(driverSidebarItems),
+        ],
+    },
     {
         Component: LoginPage,
         path: '/login',
