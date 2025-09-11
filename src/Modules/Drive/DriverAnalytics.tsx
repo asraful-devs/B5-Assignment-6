@@ -1,6 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import NavigateHome from '../../Utils/NavigateHome';
-// import { useGetDriverAnalyticsQuery } from '../../../Redux/Features/Ride/ride.api';
 import {
     Bar,
     BarChart,
@@ -16,10 +14,10 @@ import {
 } from 'recharts';
 import {
     useGetDailyEarningsQuery,
-    useGetEarningsQuery,
     useGetMyPickQuery,
 } from '../../Redux/Features/Driver/driver.api';
 import type { Ride } from '../../Types/ride';
+import NavigateHome from '../../Utils/NavigateHome';
 
 type Analytics = {
     completedRides: number;
@@ -28,17 +26,46 @@ type Analytics = {
 };
 
 const DriverAnalytics = () => {
-    const { data: earnings } = useGetEarningsQuery(undefined);
-    const { data: dailyEarnings } = useGetDailyEarningsQuery(undefined);
-    const { data: pickData } = useGetMyPickQuery(undefined);
+    const { data: dailyEarnings, isLoading: dailyLoading } =
+        useGetDailyEarningsQuery(undefined);
+    const { data: pickData, isLoading: pickLoading } =
+        useGetMyPickQuery(undefined);
 
-    console.log('Earnings Data:', earnings);
-    console.log('Daily Earnings Data:', dailyEarnings);
-    // console.log('Picked Rides Data:', pickData);
+    const today = new Date().toISOString().split('T')[0];
+    // console.log(today);
 
-    const dailyIncome = 100;
-    const weeklyIncome = dailyIncome * 7;
-    const monthlyIncome = dailyIncome * 30;
+    const dailyIncome =
+        dailyEarnings?.data?.find((item: { _id: string }) => item._id === today)
+            ?.earnings ?? 0;
+
+    const total = dailyEarnings?.data?.reduce(
+        (sum: number, item: { earnings: number }) => sum + (item.earnings || 0),
+        0
+    );
+
+    const first7DaysIncome =
+        dailyEarnings?.data
+            ?.slice(0, 7)
+            .reduce(
+                (sum: number, item: { earnings: number }) =>
+                    sum + (item.earnings || 0),
+                0
+            ) ?? 0;
+
+    const first30DaysIncome =
+        dailyEarnings?.data
+            ?.slice(0, 30)
+            .reduce(
+                (sum: number, item: { earnings: number }) =>
+                    sum + (item.earnings || 0),
+                0
+            ) ?? 0;
+
+    const weeklyIncome =
+        dailyEarnings?.data?.length >= 7 ? first7DaysIncome : total;
+
+    const monthlyIncome =
+        dailyEarnings?.data?.length >= 30 ? first30DaysIncome : total;
 
     const analytics = pickData?.data?.reduce(
         (acc: Analytics, ride: Ride) => {
@@ -55,22 +82,29 @@ const DriverAnalytics = () => {
             }
             return acc;
         },
-        { completedRides: 0, cancelledRides: 0, ongoingRides: 0 }
+        { completedRides: 0, cancelledRides: 0, pickedRides: 0 }
     );
 
+    //  Pie chart data
     const ridesData = [
         { name: 'Completed', value: analytics?.completedRides || 0 },
         { name: 'Cancelled', value: analytics?.cancelledRides || 0 },
         { name: 'Picked', value: analytics?.pickedRides || 0 },
     ];
 
-    const COLORS = ['#22c55e', '#ef4444', '#3b82f6']; // green, red, blue
+    const COLORS = ['#22c55e', '#ef4444', '#3b82f6'];
 
+    //  Bar chart data
     const rideStats = [
-        { type: 'Completed', count: analytics.completedRides || 0 },
-        { type: 'Cancelled', count: analytics.cancelledRides || 0 },
-        { type: 'Picked', count: analytics.pickedRides || 0 },
+        { type: 'Completed', count: analytics?.completedRides || 0 },
+        { type: 'Cancelled', count: analytics?.cancelledRides || 0 },
+        { type: 'Picked', count: analytics?.pickedRides || 0 },
     ];
+
+    // ✅ Loading state
+    if (dailyLoading || pickLoading) {
+        return <div className='p-6'>Loading analytics...</div>;
+    }
 
     return (
         <div className='p-6 space-y-6'>
@@ -83,7 +117,7 @@ const DriverAnalytics = () => {
                         <CardTitle>Daily Income</CardTitle>
                     </CardHeader>
                     <CardContent className='text-2xl font-bold text-green-600'>
-                        ৳ {dailyIncome || 0}
+                        ৳ {dailyIncome}
                     </CardContent>
                 </Card>
                 <Card>
@@ -91,7 +125,7 @@ const DriverAnalytics = () => {
                         <CardTitle>Weekly Income</CardTitle>
                     </CardHeader>
                     <CardContent className='text-2xl font-bold text-blue-600'>
-                        ৳ {weeklyIncome || 0}
+                        ৳ {weeklyIncome}
                     </CardContent>
                 </Card>
                 <Card>
@@ -99,7 +133,7 @@ const DriverAnalytics = () => {
                         <CardTitle>Monthly Income</CardTitle>
                     </CardHeader>
                     <CardContent className='text-2xl font-bold text-purple-600'>
-                        ৳ {monthlyIncome || 0}
+                        ৳ {monthlyIncome}
                     </CardContent>
                 </Card>
             </div>
