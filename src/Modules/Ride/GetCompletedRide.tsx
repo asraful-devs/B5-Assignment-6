@@ -7,7 +7,9 @@ const GetCompletedRide = () => {
     const { data, error, isLoading } = useGetRideQuery(undefined);
 
     const items = data?.data?.rides?.result || [];
-    const completedRides = items.filter((ride) => ride.status === 'COMPLETED');
+    const completedRides = items.filter(
+        (ride: { status: string }) => ride.status === 'COMPLETED'
+    );
 
     if (isLoading)
         return (
@@ -48,7 +50,7 @@ const GetCompletedRide = () => {
             </div>
 
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                {completedRides.map((ride) => (
+                {completedRides.map((ride: any) => (
                     <Card
                         key={ride._id}
                         className='shadow-lg border rounded-2xl hover:shadow-xl transition'

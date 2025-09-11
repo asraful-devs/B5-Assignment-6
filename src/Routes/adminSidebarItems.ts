@@ -12,7 +12,7 @@ export const adminSidebarItems: ISidebarItem[] = [
         items: [
             {
                 title: 'Analytics',
-                url: '/dashboard/analytics',
+                url: '/dashboard/admin/analytics',
                 component: Analytics,
             },
         ],
@@ -23,17 +23,17 @@ export const adminSidebarItems: ISidebarItem[] = [
         items: [
             {
                 title: 'All Users',
-                url: '/dashboard/all-users',
+                url: '/dashboard/admin/all-users',
                 component: AllUser,
             },
             {
                 title: 'All Drivers',
-                url: '/dashboard/all-drivers',
+                url: '/dashboard/admin/all-drivers',
                 component: AllDriver,
             },
             {
                 title: 'All Riders',
-                url: '/dashboard/all-riders',
+                url: '/dashboard/admin/all-riders',
                 component: AllRider,
             },
         ],
@@ -44,12 +44,12 @@ export const adminSidebarItems: ISidebarItem[] = [
         items: [
             {
                 title: 'Ride Analytics',
-                url: '/dashboard/ride-analytics',
+                url: '/dashboard/admin/ride-analytics',
                 component: RideAnalytics,
             },
             {
                 title: 'All Riders',
-                url: '/dashboard/all-riders',
+                url: '/dashboard/admin/all-riders',
                 component: AllRider,
             },
             // {
@@ -75,12 +75,12 @@ export const adminSidebarItems: ISidebarItem[] = [
         items: [
             {
                 title: 'Driver Analytics',
-                url: '/dashboard/driver-analytics',
+                url: '/dashboard/admin/driver-analytics',
                 component: DriverAnalytic,
             },
             {
                 title: 'All Drivers',
-                url: '/dashboard/all-drivers',
+                url: '/dashboard/admin/all-drivers',
                 component: AllDriver,
             },
         ],

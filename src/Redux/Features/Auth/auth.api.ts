@@ -33,6 +33,20 @@ export const authApi = baseApi.injectEndpoints({
             providesTags: ['USER'],
         }),
 
+        // userInfo: builder.query({
+        //     query: () => {
+        //         const token = localStorage.getItem('accessToken');
+        //         return {
+        //             url: '/user/me',
+        //             method: 'GET',
+        //             headers: {
+        //                 Authorization: token ? `${token}` : '',
+        //             },
+        //         };
+        //     },
+        //     providesTags: ['USER'],
+        // }),
+
         getUserById: builder.query({
             query: (id) => ({
                 url: `/user/${id}`,

@@ -33,7 +33,7 @@ const Team = ({
             linkedin: '#',
         },
         {
-            id: 'member-1',
+            id: 'member-2',
             name: 'Ratul Hasan Ruhan',
             role: 'CTO & Co-Founder',
             avatar: 'https://media.licdn.com/dms/image/v2/D5603AQFqpP1gYP0_iQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1725054267522?e=2147483647&v=beta&t=MdNdp3Ocbbge_Q2FSASS1JhC_REp_rWDnlqRENdZoT0',
@@ -42,7 +42,7 @@ const Team = ({
             linkedin: '#',
         },
         {
-            id: 'member-1',
+            id: 'member-3',
             name: 'Saiful Islam Rain',
             role: 'Lead Developer',
             avatar: 'https://files.catbox.moe/4m0db5.jpg',

@@ -1,3 +1,10 @@
+import type {
+    JSXElementConstructor,
+    Key,
+    ReactElement,
+    ReactNode,
+    ReactPortal,
+} from 'react';
 import { useGetAllRideQuery } from '../../Redux/Features/Ride/ride.api';
 
 const Earning = () => {
@@ -21,10 +28,14 @@ const Earning = () => {
     }
 
     // Stats Calculation
-    const completedRides = rides.filter((r) => r.status === 'COMPLETED').length;
-    const cancelledRides = rides.filter((r) => r.status === 'CANCELLED').length;
+    const completedRides = rides.filter(
+        (r: { status: string }) => r.status === 'COMPLETED'
+    ).length;
+    const cancelledRides = rides.filter(
+        (r: { status: string }) => r.status === 'CANCELLED'
+    ).length;
     const totalPayment = rides.reduce(
-        (sum: number, ride) =>
+        (sum: number, ride: { status: string; payment: number }) =>
             ride.status !== 'CANCELLED' ? sum + (ride.payment || 0) : sum,
         0
     );
@@ -91,34 +102,128 @@ const Earning = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {rides.slice(0, 7).map((ride, i) => (
-                                <tr
-                                    key={i}
-                                    className='hover:bg-gray-50 dark:hover:bg-gray-700 transition'
-                                >
-                                    <td className='p-3 border border-gray-200 dark:border-gray-700'>
-                                        {new Date(
-                                            ride.date
-                                        ).toLocaleDateString()}
-                                    </td>
-                                    <td className='p-3 border border-gray-200 dark:border-gray-700'>
-                                        {ride.pickupLocation} →{' '}
-                                        {ride.dropLocation}
-                                    </td>
-                                    <td
-                                        className={`p-3 border border-gray-200 dark:border-gray-700 font-semibold ${
-                                            ride.status === 'COMPLETED'
-                                                ? 'text-green-600 dark:text-green-400'
-                                                : 'text-red-500 dark:text-red-400'
-                                        }`}
+                            {rides.slice(0, 7).map(
+                                (
+                                    ride: {
+                                        date: string | number | Date;
+                                        pickupLocation:
+                                            | string
+                                            | number
+                                            | bigint
+                                            | boolean
+                                            | ReactElement<
+                                                  unknown,
+                                                  | string
+                                                  | JSXElementConstructor<unknown>
+                                              >
+                                            | Iterable<ReactNode>
+                                            | ReactPortal
+                                            | Promise<
+                                                  | string
+                                                  | number
+                                                  | bigint
+                                                  | boolean
+                                                  | ReactPortal
+                                                  | ReactElement<
+                                                        unknown,
+                                                        | string
+                                                        | JSXElementConstructor<unknown>
+                                                    >
+                                                  | Iterable<ReactNode>
+                                                  | null
+                                                  | undefined
+                                              >
+                                            | null
+                                            | undefined;
+                                        dropLocation:
+                                            | string
+                                            | number
+                                            | bigint
+                                            | boolean
+                                            | ReactElement<
+                                                  unknown,
+                                                  | string
+                                                  | JSXElementConstructor<unknown>
+                                              >
+                                            | Iterable<ReactNode>
+                                            | ReactPortal
+                                            | Promise<
+                                                  | string
+                                                  | number
+                                                  | bigint
+                                                  | boolean
+                                                  | ReactPortal
+                                                  | ReactElement<
+                                                        unknown,
+                                                        | string
+                                                        | JSXElementConstructor<unknown>
+                                                    >
+                                                  | Iterable<ReactNode>
+                                                  | null
+                                                  | undefined
+                                              >
+                                            | null
+                                            | undefined;
+                                        status:
+                                            | string
+                                            | number
+                                            | bigint
+                                            | boolean
+                                            | ReactElement<
+                                                  unknown,
+                                                  | string
+                                                  | JSXElementConstructor<unknown>
+                                              >
+                                            | Iterable<ReactNode>
+                                            | Promise<
+                                                  | string
+                                                  | number
+                                                  | bigint
+                                                  | boolean
+                                                  | ReactPortal
+                                                  | ReactElement<
+                                                        unknown,
+                                                        | string
+                                                        | JSXElementConstructor<unknown>
+                                                    >
+                                                  | Iterable<ReactNode>
+                                                  | null
+                                                  | undefined
+                                              >
+                                            | null
+                                            | undefined;
+                                        payment: number;
+                                    },
+                                    i: Key | null | undefined
+                                ) => (
+                                    <tr
+                                        key={i}
+                                        className='hover:bg-gray-50 dark:hover:bg-gray-700 transition'
                                     >
-                                        {ride.status}
-                                    </td>
-                                    <td className='p-3 border border-gray-200 dark:border-gray-700'>
-                                        ${ride.payment || 0}
-                                    </td>
-                                </tr>
-                            ))}
+                                        <td className='p-3 border border-gray-200 dark:border-gray-700'>
+                                            {new Date(
+                                                ride.date
+                                            ).toLocaleDateString()}
+                                        </td>
+                                        <td className='p-3 border border-gray-200 dark:border-gray-700'>
+                                            {ride.pickupLocation} →{' '}
+                                            {ride.dropLocation}
+                                        </td>
+                                        <td
+                                            className={`p-3 border border-gray-200 dark:border-gray-700 font-semibold ${
+                                                ride.status === 'COMPLETED'
+                                                    ? 'text-green-600 dark:text-green-400'
+                                                    : 'text-red-500 dark:text-red-400'
+                                            }`}
+                                        >
+                                            {ride.status}
+                                        </td>
+                                        <td className='p-3 border border-gray-200 dark:border-gray-700'>
+                                            ${ride.payment || 0}
+                                        </td>
+                                    </tr>
+                                )
+                            )}
                         </tbody>
                     </table>
                 </div>
