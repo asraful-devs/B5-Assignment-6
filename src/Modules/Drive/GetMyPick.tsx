@@ -16,7 +16,9 @@ const GetMyPick = () => {
 
     const picks = data?.data || [];
 
-    const filteredPicks = picks.filter((pick) => pick.status === filter);
+    const filteredPicks = picks.filter(
+        (pick: { status: string }) => pick.status === filter
+    );
 
     // Pagination
     const totalPages = Math.ceil(filteredPicks.length / itemsPerPage);

@@ -16,13 +16,21 @@ const axiosBaseQuery =
     > =>
     async ({ url, method, data, params, headers }) => {
         try {
+            // 👉 Get token from localStorage (or cookie)
+            const token = localStorage.getItem('accessToken');
+
             const result = await axiosInstance({
-                url: url,
+                url,
                 method,
                 data,
                 params,
-                headers,
+                headers: {
+                    ...(headers || {}),
+                    ...(token ? { Authorization: `${token}` } : {}), // attach token if available
+                },
+                withCredentials: true, // send cookies if backend uses them
             });
+
             return { data: result.data };
         } catch (axiosError) {
             const err = axiosError as AxiosError;

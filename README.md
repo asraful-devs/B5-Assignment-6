@@ -1,69 +1,167 @@
-# React + TypeScript + Vite
+# B5-Assignment-6
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🚖 Ride Management System – Frontend
 
-Currently, two official plugins are available:
+## 📌 Project Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is a **simple yet functional Ride Sharing Platform** built with **React**.
+The application includes **role-based authentication** and provides three distinct user roles:
 
-## Expanding the ESLint configuration
+-   **Admin**
+-   **Driver**
+-   **Rider**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+By default, whenever a new user signs up or logs in, they are assigned the **Rider** role.
+Only the **Admin** has the authority to change user roles.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The UI/UX is designed to be modern, responsive, and intuitive across all devices.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 👥 Role-Based Access
+
+-   **Rider**
+
+    -   Riders can access the **Ride Request option**.
+    -   This option is exclusively available to Riders and is **not accessible** by Drivers.
+    -   Riders have their own **dedicated dashboard** for managing rides and viewing ride history.
+
+-   **Driver**
+
+    -   Drivers can only access **driver-related features**.
+    -   No other user role can access driver operations.
+    -   Drivers also have a **separate dashboard** tailored to their tasks.
+
+-   **Admin**
+    -   The Admin has **full control** over the platform.
+    -   Admin features include:
+        -   Viewing all users and managing their roles
+        -   Updating or changing a user’s role
+        -   Deleting users if necessary
+        -   Monitoring overall progress of the website
+        -   Viewing **analytics and statistics** to track platform growth
+    -   The Admin dashboard is designed with **advanced functionalities** for management and monitoring.
+
+---
+
+## 🔒 Authentication & Security
+
+-   Authentication is handled using **JWT (JSON Web Tokens)**.
+-   Without proper authentication, no user can access protected features.
+-   If an unauthorized user tries to perform restricted actions, the system will return an **Unauthorized Access** response.
+
+---
+
+## 🎯 Key Highlights
+
+-   Clean and simple **role-based authentication system**
+-   Separate dashboards for **Rider** and **Driver** roles
+-   **Admin dashboard** with advanced user and system management features
+-   Secure **JWT authentication** with proper access control
+-   User-friendly and responsive UI built with React
+
+---
+
+## ⚙️ Tech Stack
+
+| **Category**                      | **Technology**                            |
+| --------------------------------- | ----------------------------------------- |
+| **Frontend Framework**            | React (with React Router)                 |
+| **State Management**              | Redux Toolkit, RTK Query (Axios optional) |
+| **Language**                      | TypeScript                                |
+| **Styling**                       | Tailwind CSS                              |
+| **Backend API**                   | Node.js, Express, MongoDB                 |
+| **Authentication**                | JWT + bcrypt                              |
+| **Data Visualization (Optional)** | Recharts                                  |
+| **Notifications (Optional)**      | React Hot Toast                           |
+
+---
+
+## 🚀 Features
+
+-   **Public Landing Page** introducing the ride booking system
+-   **Role-Based Dashboards** for Riders, Drivers, and Admins
+-   **Real-Time State Management** with Redux Toolkit & RTK Query
+-   **Secure Authentication** with JWT
+-   **Responsive UI** built with Tailwind CSS
+-   **Optional Enhancements**: charts, analytics, and live notifications
+
+---
+
+## 📂 Project Structure (Planned)
+
 ```
+.
+├── src
+│   ├── assets/
+│   │   └── # (Images, fonts, svgs, etc.)
+│   │
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── app-sidebar.tsx
+│   │   │   ├── carousel-01.tsx
+│   │   │   ├── loading.tsx
+│   │   │   └── logo.tsx
+│   │   └── # (Other shared, non-UI components)
+│   │
+│   ├── Config/
+│   │   └── # (Configuration files, e.g., firebase.ts)
+│   │
+│   ├── Constants/
+│   │   └── # (Constant values, e.g., routes.ts, api-endpoints.ts)
+│   │
+│   ├── hooks/
+│   │   └── # (Custom React hooks, e.g., useAuth.ts)
+│   │
+│   ├── Layout/
+│   │   └── # (Main layout components, e.g., MainLayout.tsx)
+│   │
+│   ├── lib/
+│   │   └── # (Utility functions and libraries, e.g., utils.ts)
+│   │
+│   ├── Modules/
+│   │   ├── About/
+│   │   ├── Admin/
+│   │   ├── Authentication/
+│   │   ├── Drive/
+│   │   ├── Features/
+│   │   ├── Home/
+│   │   ├── Ride/
+│   │   └── FAQ.tsx
+│   │
+│   ├── Page/
+│   │   └── # (Page-level components that assemble modules)
+│   │
+│   ├── Provider/
+│   │   └── # (React Context providers, e.g., ThemeProvider.tsx)
+│   │
+│   ├── Redux/
+│   │   ├── Features/
+│   │   │   ├── Auth/
+│   │   │   │   └── auth.api.ts
+│   │   │   ├── Driver/
+│   │   │   │   └── driver.api.ts
+│   │   │   └── Ride/
+│   │   │       └── ride.api.ts
+│   │   ├── axiosBaseQuery.ts
+│   │   ├── baseApi.ts
+│   │   ├── hooks.ts
+│   │   └── store.ts
+│   │
+│   ├── Routes/
+│   │   └── # (Routing configuration, e.g., AppRoutes.tsx)
+│   │
+│   ├── Types/
+│   │   └── # (TypeScript type definitions and interfaces)
+│   │
+│   ├── App.css
+│   ├── App.tsx
+│   ├── index.css
+│   └── # (Other root files like main.tsx or vite-env.d.ts)
+│
+├── .gitignore
+├── package.json
+├── README.md
+└── tsconfig.json
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```

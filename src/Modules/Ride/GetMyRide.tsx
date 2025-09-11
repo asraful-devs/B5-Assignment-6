@@ -38,30 +38,47 @@ const GetMyRide = () => {
     const itemsPerPage = 6;
 
     const items = data?.data?.rides?.result || [];
-    const activeRides = items.filter((ride) => ride.status !== 'COMPLETED');
+    const activeRides = items.filter(
+        (ride: { status: string }) => ride.status !== 'COMPLETED'
+    );
 
     const filteredRides = useMemo(() => {
-        return activeRides.filter((ride) => {
-            const matchesSearch =
-                ride.pickupLocation
-                    ?.toLowerCase()
-                    .includes(search.toLowerCase()) ||
-                ride.dropLocation?.toLowerCase().includes(search.toLowerCase());
+        return activeRides.filter(
+            (ride: {
+                pickupLocation: string;
+                dropLocation: string;
+                status: string;
+                payment: number;
+                createdAt: string | number | Date;
+            }) => {
+                const matchesSearch =
+                    ride.pickupLocation
+                        ?.toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                    ride.dropLocation
+                        ?.toLowerCase()
+                        .includes(search.toLowerCase());
 
-            const matchesStatus =
-                statusFilter === 'ALL' || ride.status === statusFilter;
+                const matchesStatus =
+                    statusFilter === 'ALL' || ride.status === statusFilter;
 
-            const matchesFare =
-                (!fareMin || ride.payment >= Number(fareMin)) &&
-                (!fareMax || ride.payment <= Number(fareMax));
+                const matchesFare =
+                    (!fareMin || ride.payment >= Number(fareMin)) &&
+                    (!fareMax || ride.payment <= Number(fareMax));
 
-            const rideDate = ride.createdAt ? new Date(ride.createdAt) : null;
-            const matchesDate =
-                (!dateFrom || (rideDate && rideDate >= new Date(dateFrom))) &&
-                (!dateTo || (rideDate && rideDate <= new Date(dateTo)));
+                const rideDate = ride.createdAt
+                    ? new Date(ride.createdAt)
+                    : null;
+                const matchesDate =
+                    (!dateFrom ||
+                        (rideDate && rideDate >= new Date(dateFrom))) &&
+                    (!dateTo || (rideDate && rideDate <= new Date(dateTo)));
 
-            return matchesSearch && matchesStatus && matchesFare && matchesDate;
-        });
+                return (
+                    matchesSearch && matchesStatus && matchesFare && matchesDate
+                );
+            }
+        );
     }, [activeRides, search, statusFilter, fareMin, fareMax, dateFrom, dateTo]);
 
     // Pagination
@@ -181,74 +198,101 @@ const GetMyRide = () => {
 
             {/* Ride List */}
             <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                {paginatedRides.map((item) => (
-                    <Card
-                        key={item._id}
-                        className='shadow-lg border rounded-2xl hover:shadow-xl transition'
-                    >
-                        <CardHeader>
-                            <CardTitle className='flex items-center gap-2 text-lg'>
-                                <Clock className='text-amber-500' size={20} />
-                                Active Ride
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className='space-y-3'>
-                            <div className='flex items-center gap-2'>
-                                <MapPin className='text-blue-500' size={18} />
-                                <span className='font-medium'>Pickup:</span>
-                                <span>{item.pickupLocation}</span>
-                            </div>
-                            <div className='flex items-center gap-2'>
-                                <Flag className='text-red-500' size={18} />
-                                <span className='font-medium'>Drop:</span>
-                                <span>{item.dropLocation}</span>
-                            </div>
-                            <div className='flex items-center gap-2'>
-                                <DollarSign
-                                    className='text-green-500'
-                                    size={18}
-                                />
-                                <span className='font-medium'>Amount:</span>
-                                <span>$ {item.payment}</span>
-                            </div>
-                            <div className='flex items-center gap-2'>
-                                <span className='font-medium'>Status:</span>
-                                <span className='text-amber-600'>
-                                    {item.status}
-                                </span>
-                            </div>
+                {paginatedRides.map(
+                    (item: {
+                        _id?: string;
+                        pickupLocation: string;
+                        dropLocation: string;
+                        payment: number;
+                        status?: string;
+                    }) => (
+                        <Card
+                            key={item._id}
+                            className='shadow-lg border rounded-2xl hover:shadow-xl transition'
+                        >
+                            <CardHeader>
+                                <CardTitle className='flex items-center gap-2 text-lg'>
+                                    <Clock
+                                        className='text-amber-500'
+                                        size={20}
+                                    />
+                                    Active Ride
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className='space-y-3'>
+                                <div className='flex items-center gap-2'>
+                                    <MapPin
+                                        className='text-blue-500'
+                                        size={18}
+                                    />
+                                    <span className='font-medium'>Pickup:</span>
+                                    <span>{item.pickupLocation}</span>
+                                </div>
+                                <div className='flex items-center gap-2'>
+                                    <Flag className='text-red-500' size={18} />
+                                    <span className='font-medium'>Drop:</span>
+                                    <span>{item.dropLocation}</span>
+                                </div>
+                                <div className='flex items-center gap-2'>
+                                    <DollarSign
+                                        className='text-green-500'
+                                        size={18}
+                                    />
+                                    <span className='font-medium'>Amount:</span>
+                                    <span>$ {item.payment}</span>
+                                </div>
+                                <div className='flex items-center gap-2'>
+                                    <span className='font-medium'>Status:</span>
+                                    <span className='text-amber-600'>
+                                        {item.status}
+                                    </span>
+                                </div>
 
-                            <div className='flex justify-between gap-4 pt-2'>
-                                <Update
-                                    ride={item}
-                                    onConfirm={(rideInfo) =>
-                                        handleUpdateRide(item._id, rideInfo)
-                                    }
-                                >
-                                    <Button
-                                        size='sm'
-                                        className='bg-amber-300 hover:bg-amber-500 flex items-center gap-2'
+                                <div className='flex justify-between gap-4 pt-2'>
+                                    <Update
+                                        ride={item}
+                                        onConfirm={(rideInfo) =>
+                                            item._id
+                                                ? handleUpdateRide(
+                                                      item._id,
+                                                      rideInfo
+                                                  )
+                                                : toast.error(
+                                                      'Ride ID is missing'
+                                                  )
+                                        }
                                     >
-                                        <RxUpdate size={18} />
-                                        <span>Update</span>
-                                    </Button>
-                                </Update>
+                                        <Button
+                                            size='sm'
+                                            className='bg-amber-300 hover:bg-amber-500 flex items-center gap-2'
+                                        >
+                                            <RxUpdate size={18} />
+                                            <span>Update</span>
+                                        </Button>
+                                    </Update>
 
-                                <DeleteConfirmation
-                                    onConfirm={() => handleRemoveRide(item._id)}
-                                >
-                                    <Button
-                                        size='sm'
-                                        className='bg-red-300 hover:bg-red-500 flex items-center gap-2'
+                                    <DeleteConfirmation
+                                        onConfirm={() =>
+                                            item._id
+                                                ? handleRemoveRide(item._id)
+                                                : toast.error(
+                                                      'Ride ID is missing'
+                                                  )
+                                        }
                                     >
-                                        <Trash2 size={18} />
-                                        <span>Delete</span>
-                                    </Button>
-                                </DeleteConfirmation>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
+                                        <Button
+                                            size='sm'
+                                            className='bg-red-300 hover:bg-red-500 flex items-center gap-2'
+                                        >
+                                            <Trash2 size={18} />
+                                            <span>Delete</span>
+                                        </Button>
+                                    </DeleteConfirmation>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    )
+                )}
             </div>
 
             {/* Pagination */}

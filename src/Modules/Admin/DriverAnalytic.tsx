@@ -39,24 +39,31 @@ const DriverAnalytic = () => {
     }
 
     // Stats
-    const completedRides = rides.filter((r) => r.status === 'COMPLETED').length;
+    const completedRides = rides.filter(
+        (r: { status: string }) => r.status === 'COMPLETED'
+    ).length;
     const totalPayment = rides.reduce(
-        (sum: number, ride) =>
+        (sum: number, ride: { status: string; payment: number }) =>
             ride.status !== 'CANCELLED' ? sum + (ride.payment || 0) : sum,
         0
     );
 
     const users = allUsersData?.data || [];
-    const driver = users.filter((user) => user.role === 'DRIVER').length;
+    const driver = users.filter(
+        (user: { role: string }) => user.role === 'DRIVER'
+    ).length;
 
     const activeDrivers = users.filter(
-        (user) => user.role === 'DRIVER' && user.isActive === 'ACTIVE'
+        (user: { role: string; isActive: string }) =>
+            user.role === 'DRIVER' && user.isActive === 'ACTIVE'
     ).length;
     const inactiveDrivers = users.filter(
-        (user) => user.role === 'DRIVER' && user.isActive === 'INACTIVE'
+        (user: { role: string; isActive: string }) =>
+            user.role === 'DRIVER' && user.isActive === 'INACTIVE'
     ).length;
     const deletedDrivers = users.filter(
-        (user) => user.role === 'DRIVER' && user.isDeleted === true
+        (user: { role: string; isDeleted: boolean }) =>
+            user.role === 'DRIVER' && user.isDeleted === true
     ).length;
 
     const driverStatusData = [
@@ -66,10 +73,12 @@ const DriverAnalytic = () => {
     ];
 
     const dailyEarnings = dailyEarningsData?.data || [];
-    const earningsData = dailyEarnings.map((item) => ({
-        date: item._id,
-        earnings: item.earnings,
-    }));
+    const earningsData = dailyEarnings.map(
+        (item: { _id: string; earnings: number }) => ({
+            date: item._id,
+            earnings: item.earnings,
+        })
+    );
 
     return (
         <div className='p-6 space-y-8'>
@@ -129,7 +138,7 @@ const DriverAnalytic = () => {
                                     outerRadius='80%'
                                     label
                                 >
-                                    {driverStatusData.map((entry, index) => (
+                                    {driverStatusData.map((_entry, index) => (
                                         <Cell
                                             key={index}
                                             fill={
