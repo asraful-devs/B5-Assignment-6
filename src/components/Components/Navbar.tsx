@@ -40,6 +40,8 @@ export default function Navbar() {
     const user = data?.data?.data;
     const isLoggedIn = !!user?.email;
 
+    // console.log(user.role, user.accessToken);
+
     const handleLogout = async () => {
         await logout(undefined);
         dispatch(authApi.util.resetApiState());

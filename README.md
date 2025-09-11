@@ -1,4 +1,4 @@
-# B5-Assignment-6
+# B5-Assignment-5
 
 # 🚖 Ride Management System – Frontend
 
@@ -165,3 +165,77 @@ The UI/UX is designed to be modern, responsive, and intuitive across all devices
 └── tsconfig.json
 
 ```
+
+## 🚖 Rider Features
+
+### 🎯 Ride Management
+
+-   Create new rides.
+-   View all rides created by the user.
+-   Check the status of each ride:
+    -   ✅ Completed
+    -   ❌ Canceled
+    -   ⏳ Pending / Ongoing
+-   Update rides when necessary.
+
+### 📊 Rider Dashboard
+
+-   View the total number of rides created.
+-   Track the number of Completed / Canceled / Pending rides.
+-   Manage rides directly from the dashboard.
+
+### 📈 Rider Analytics
+
+-   Visual representation of ride data (charts / graphs).
+-   Track earnings from rides.
+-   Track total expenses.
+
+---
+
+## 🚕 Driver Features
+
+### 🎯 Ride Management
+
+-   View all available rides.
+-   Pick a ride to work on.
+-   Cancel or complete picked rides.
+-   Track the status of all rides assigned.
+
+### 📊 Driver Dashboard
+
+-   Manage rides directly from the dashboard.
+-   View counts of Completed / Canceled / Picked rides.
+-   Track ride statuses in real-time.
+
+### 📈 Driver Analytics
+
+-   Visualize earnings on a daily, weekly, and monthly basis.
+-   Track income for a single day, seven days, and one month.
+-   View counts of Completed / Canceled / Picked rides graphically.
+
+---
+
+## 🛡️ Admin Features
+
+### 🎯 Full System Management
+
+-   Perform all actions of a **Rider** and **Driver**.
+-   Update user roles (Rider, Driver, Admin).
+-   View all users, including Riders and Drivers.
+-   Track total system-wide earnings.
+-   Delete any user if required.
+
+### 📊 Admin Dashboard & Analytics
+
+-   Visualize overall system data effectively.
+-   View analytics from Driver information.
+-   View analytics from Rider information.
+-   Generate comprehensive reports for earnings and ride statuses.
+
+---
+
+## 🖥️🌐 Live Demo
+
+### 🌐 Frontend Link : https://assignment-6-one-zeta.vercel.app/api/v1
+
+### 🖥️ Backend Link : https://assignment-5-five-red.vercel.app/api/v1
