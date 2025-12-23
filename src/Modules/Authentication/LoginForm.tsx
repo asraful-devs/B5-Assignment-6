@@ -14,6 +14,7 @@ import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import config from '../../Config';
 import { useLoginMutation } from '../../Redux/Features/Auth/auth.api';
+
 export function LoginForm({
     className,
     ...props
@@ -35,14 +36,13 @@ export function LoginForm({
                 toast.success('Logged in successfully');
                 navigate('/');
             }
-        } catch (err) {
-            console.error(err);
-
-            if (err.data.message === 'Password does not match') {
-                toast.error('Invalid credentials');
+        } catch (err: any) {
+            console.error(err.data.message);
+            if (err.data.message == 'Password dose not match') {
+                toast.error('Invalid credentials. Password is incorrect');
             }
 
-            if (err.data.message === 'User is not verified') {
+            if (err.data.message == 'User is not verified') {
                 toast.error('Your account is not verified');
                 navigate('/verify', { state: data.email });
             }

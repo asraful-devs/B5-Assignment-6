@@ -17,8 +17,12 @@ const AllUser = () => {
 
     const users = data?.data || [];
 
-    const driverRole = users.filter((user) => user.role === 'DRIVER').length;
-    const riderRole = users.filter((user) => user.role === 'RIDER').length;
+    const driverRole = users.filter(
+        (user: { role: string }) => user.role === 'DRIVER'
+    ).length;
+    const riderRole = users.filter(
+        (user: { role: string }) => user.role === 'RIDER'
+    ).length;
 
     // Pie chart data
     const pieData = [

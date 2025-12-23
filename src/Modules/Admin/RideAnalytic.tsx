@@ -24,12 +24,16 @@ function RideAnalytics() {
     }
 
     // Calculate ride stats
-    const completedRides = rides.filter((r) => r.status === 'COMPLETED').length;
-    const cancelledRides = rides.filter((r) => r.status === 'CANCELLED').length;
+    const completedRides = rides.filter(
+        (r: { status: string }) => r.status === 'COMPLETED'
+    ).length;
+    const cancelledRides = rides.filter(
+        (r: { status: string }) => r.status === 'CANCELLED'
+    ).length;
     const totalRides = rides.length;
 
     const totalPayment = rides.reduce(
-        (sum: number, ride) =>
+        (sum: number, ride: { status: string; payment: number }) =>
             ride.status !== 'CANCELLED' ? sum + (ride.payment || 0) : sum,
         0
     );
