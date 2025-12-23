@@ -4,6 +4,7 @@ import AllUser from '../Modules/Admin/AllUser';
 import Analytics from '../Modules/Admin/Analytics';
 import DriverAnalytic from '../Modules/Admin/DriverAnalytic';
 import RideAnalytics from '../Modules/Admin/RideAnalytic';
+import MePage from '../Page/MePage';
 import type { ISidebarItem } from '../Types/Index';
 
 export const adminSidebarItems: ISidebarItem[] = [
@@ -14,6 +15,11 @@ export const adminSidebarItems: ISidebarItem[] = [
                 title: 'Analytics',
                 url: '/dashboard/analytics',
                 component: Analytics,
+            },
+            {
+                title: 'Me',
+                url: '/dashboard/me',
+                component: MePage,
             },
         ],
     },

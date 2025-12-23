@@ -2,12 +2,14 @@ import { createBrowserRouter, Navigate } from 'react-router';
 import App from '../App';
 import DashboardLayout from '../Layout/DashboardLayout';
 import AboutPage from '../Page/AboutPage';
+import AchievementsPage from '../Page/AchievementsPage';
 import DrivePage from '../Page/DrivePage';
 import FAQPage from '../Page/FAQPage';
 import FeaturesPage from '../Page/FeaturesPage';
 import HomePage from '../Page/HomePage';
 import LoginPage from '../Page/LoginPage';
-import MePage from '../Page/MePage';
+import OurTeam from '../Page/OurTeam';
+import PricePage from '../Page/PricePage';
 import RegisterPage from '../Page/RegisterPage';
 import RidePage from '../Page/RidePage';
 import UnauthorizedPage from '../Page/UnauthorizedPage';
@@ -34,16 +36,24 @@ export const router = createBrowserRouter([
                 path: 'about',
             },
             {
+                Component: OurTeam,
+                path: 'about/our-team',
+            },
+            {
                 Component: FAQPage,
-                path: 'faq',
+                path: 'about/faq',
+            },
+            {
+                Component: AchievementsPage,
+                path: 'about/achievements',
+            },
+            {
+                Component: PricePage,
+                path: 'about/prices-plans',
             },
             {
                 Component: UnauthorizedPage,
                 path: 'unauthorized',
-            },
-            {
-                Component: MePage,
-                path: 'me',
             },
             {
                 Component: RidePrivateRoute,

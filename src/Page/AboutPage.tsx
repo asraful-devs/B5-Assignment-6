@@ -1,11 +1,11 @@
-import { Achievements } from '../Modules/About/Achievements';
-import { Team } from '../Modules/About/Team';
+import Me from '../Modules/About/Me';
 
 const AboutPage = () => {
     return (
         <div>
-            <Team />
-            <Achievements />
+            <Me />
+            {/* <Team /> */}
+            {/* <Achievements /> */}
         </div>
     );
 };

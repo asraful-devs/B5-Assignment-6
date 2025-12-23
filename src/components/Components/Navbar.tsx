@@ -14,6 +14,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { role } from '../../Constants/role';
 import {
@@ -30,16 +31,43 @@ const navigationLinks = [
     { href: '/ride', label: 'Ride', role: role.rider },
     { href: '/drive', label: 'Drive', role: role.driver },
     { href: '/features', label: 'Features', role: 'PUBLIC' },
-    { href: '/faq', label: 'FAQ', role: 'PUBLIC' },
-    { href: '/about', label: 'About Us', role: 'PUBLIC' },
-    { href: '/me', label: 'Me', role: 'USER' },
-    { href: '/dashboard', label: 'Dashboard', role: 'ADMIN' },
+];
+
+// Mega Menu for About
+const aboutMenuItems = [
+    {
+        href: '/about',
+        label: 'About Me',
+        description: 'Learn about Me and my journey',
+    },
+    {
+        href: '/about/our-team',
+        label: 'Our Team',
+        description: 'Meet our team members',
+    },
+    {
+        href: '/about/faq',
+        label: 'FAQ',
+        description: 'Frequently asked questions',
+    },
+    {
+        href: '/about/achievements',
+        label: 'Achievements',
+        description: 'Our milestones',
+    },
+    {
+        href: '/about/prices-plans',
+        label: 'Prices & Plans',
+        description: 'Our milestones',
+    },
 ];
 
 export default function Navbar() {
     const { data } = useUserInfoQuery(undefined);
     const [logout] = useLogoutMutation();
     const dispatch = useAppDispatch();
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [isAboutOpen, setIsAboutOpen] = useState(false);
 
     const user = data?.data?.data;
     const isLoggedIn = !!user?.email;
@@ -50,10 +78,7 @@ export default function Navbar() {
     };
 
     const filteredLinks = navigationLinks.filter((link) => {
-        if (
-            (link.href === '/dashboard' || link.href === '/me') &&
-            !isLoggedIn
-        ) {
+        if (link.href === '/dashboard' && !isLoggedIn) {
             return false;
         }
         return true;
@@ -66,7 +91,10 @@ export default function Navbar() {
                 <div className='flex gap-2'>
                     <div className='flex items-center md:hidden'>
                         {/* Mobile menu trigger */}
-                        <Popover>
+                        <Popover
+                            open={isMobileOpen}
+                            onOpenChange={setIsMobileOpen}
+                        >
                             <PopoverTrigger asChild>
                                 <Button
                                     className='group size-8'
@@ -119,6 +147,50 @@ export default function Navbar() {
                                                 </NavigationMenuLink>
                                             </NavigationMenuItem>
                                         ))}
+
+                                        {/* Mobile About Dropdown */}
+                                        <div className='w-full border-t mt-2 pt-2'>
+                                            <p className='text-sm font-medium px-3 py-1.5 text-muted-foreground flex items-center gap-2'>
+                                                <svg
+                                                    width={16}
+                                                    height={16}
+                                                    viewBox='0 0 24 24'
+                                                    fill='none'
+                                                    stroke='currentColor'
+                                                    strokeWidth='2'
+                                                    strokeLinecap='round'
+                                                    strokeLinejoin='round'
+                                                >
+                                                    <polyline points='6 9 12 15 18 9' />
+                                                </svg>
+                                                About & Info
+                                            </p>
+                                            {aboutMenuItems.map((item, idx) => (
+                                                <NavigationMenuItem
+                                                    key={idx}
+                                                    className='w-full ml-2'
+                                                >
+                                                    <NavigationMenuLink
+                                                        href={item.href}
+                                                        className='py-1.5 text-sm'
+                                                    >
+                                                        {item.label}
+                                                    </NavigationMenuLink>
+                                                </NavigationMenuItem>
+                                            ))}
+                                        </div>
+
+                                        {/* Mobile Me & Dashboard */}
+                                        {isLoggedIn && (
+                                            <NavigationMenuItem className='w-full'>
+                                                <NavigationMenuLink
+                                                    href='/dashboard'
+                                                    className='py-1.5'
+                                                >
+                                                    Dashboard
+                                                </NavigationMenuLink>
+                                            </NavigationMenuItem>
+                                        )}
                                     </NavigationMenuList>
                                 </NavigationMenu>
                             </PopoverContent>
@@ -148,6 +220,84 @@ export default function Navbar() {
                                         </NavigationMenuLink>
                                     </NavigationMenuItem>
                                 ))}
+                                {/* About Mega Menu */}
+                                <NavigationMenuItem className='h-full'>
+                                    <Popover
+                                        open={isAboutOpen}
+                                        onOpenChange={setIsAboutOpen}
+                                    >
+                                        <PopoverTrigger asChild>
+                                            <button className='text-muted-foreground hover:text-primary border-b-primary hover:border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 px-3 font-medium hover:bg-transparent text-sm inline-flex items-center gap-1.5'>
+                                                About Us
+                                                <svg
+                                                    width={14}
+                                                    height={14}
+                                                    viewBox='0 0 24 24'
+                                                    fill='none'
+                                                    stroke='currentColor'
+                                                    strokeWidth='2'
+                                                    strokeLinecap='round'
+                                                    strokeLinejoin='round'
+                                                    className={`transition-transform duration-200 ${
+                                                        isAboutOpen
+                                                            ? 'rotate-180'
+                                                            : ''
+                                                    }`}
+                                                >
+                                                    <polyline points='6 9 12 15 18 9' />
+                                                </svg>
+                                            </button>
+                                        </PopoverTrigger>
+                                        <PopoverContent
+                                            className='w-72 p-4'
+                                            align='start'
+                                        >
+                                            <div className='grid gap-4'>
+                                                <div className='space-y-2'>
+                                                    <h4 className='font-bold text-sm leading-none'>
+                                                        About & Information
+                                                    </h4>
+                                                    <p className='text-xs text-muted-foreground'>
+                                                        Explore our company and
+                                                        resources
+                                                    </p>
+                                                </div>
+                                                <div className='grid gap-2'>
+                                                    {aboutMenuItems.map(
+                                                        (item, idx) => (
+                                                            <a
+                                                                key={idx}
+                                                                href={item.href}
+                                                                className='group block space-y-1 rounded-md p-3 hover:bg-accent transition-colors'
+                                                            >
+                                                                <p className='text-sm font-medium leading-none group-hover:text-primary'>
+                                                                    {item.label}
+                                                                </p>
+                                                                <p className='text-xs text-muted-foreground'>
+                                                                    {
+                                                                        item.description
+                                                                    }
+                                                                </p>
+                                                            </a>
+                                                        )
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </PopoverContent>
+                                    </Popover>
+                                </NavigationMenuItem>
+
+                                {/* Dashboard & Me Menu */}
+                                {isLoggedIn && (
+                                    <NavigationMenuItem className='h-full'>
+                                        <NavigationMenuLink
+                                            href='/dashboard'
+                                            className='text-muted-foreground hover:text-primary border-b-primary hover:border-b-primary data-[active]:border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 px-3 font-medium hover:bg-transparent data-[active]:bg-transparent!'
+                                        >
+                                            Dashboard
+                                        </NavigationMenuLink>
+                                    </NavigationMenuItem>
+                                )}
                             </NavigationMenuList>
                         </NavigationMenu>
                     </div>

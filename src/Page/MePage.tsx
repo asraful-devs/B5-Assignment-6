@@ -22,7 +22,11 @@ const MePage = () => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     if (isLoading)
-        return <p className='text-center text-lg'>Loading profile...</p>;
+        return (
+            <p className='text-center text-lg mt-20 text-gray-600 dark:text-gray-400'>
+                Loading profile...
+            </p>
+        );
 
     const handleUpdate = async (field: string) => {
         try {
@@ -48,149 +52,219 @@ const MePage = () => {
     };
 
     return (
-        <div className='max-w-2xl mx-auto p-6 space-y-8'>
-            {/* Profile Info Card */}
-            <div className='rounded-lg shadow p-6 bg-white dark:bg-gray-800'>
-                <h1 className='text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200'>
-                    My Profile
-                </h1>
-                <div className='space-y-2 text-gray-700 dark:text-gray-300'>
-                    <p>
-                        <span className='font-semibold'>Name:</span>{' '}
-                        {user?.name}
-                    </p>
-                    <p>
-                        <span className='font-semibold'>Email:</span>{' '}
-                        {user?.email}
-                    </p>
-                    <p>
-                        <span className='font-semibold'>Phone:</span>{' '}
-                        {user?.phone || 'Not Added'}
-                    </p>
-                    <p>
-                        <span className='font-semibold'>Role:</span>{' '}
-                        {user?.role}
-                    </p>
-                    <p>
-                        <span className='font-semibold'>Status:</span>{' '}
-                        {user?.isActive ? 'Active' : 'Inactive'}
+        <div className='min-h-screen bg-gray-50 dark:bg-gray-950 py-8 px-4'>
+            <div className='max-w-6xl mx-auto'>
+                {/* Header */}
+                <div className='mb-8'>
+                    <h1 className='text-3xl font-light text-gray-900 dark:text-gray-100'>
+                        Profile Settings
+                    </h1>
+                    <p className='text-sm text-gray-500 dark:text-gray-400 mt-1'>
+                        Manage your account information and preferences
                     </p>
                 </div>
-            </div>
 
-            {/* Update Name */}
-            <div className='rounded-lg shadow p-6 border bg-white dark:bg-gray-800 dark:border-gray-700'>
-                <h2 className='text-lg font-semibold mb-3 text-gray-700 dark:text-gray-200'>
-                    Update Name
-                </h2>
-                <div className='flex gap-2'>
-                    <input
-                        type='text'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className='border rounded w-full p-2 focus:ring-1 focus:ring-blue-400
-                        bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600'
-                    />
-                    <button
-                        onClick={() => handleUpdate('name')}
-                        disabled={isUpdating}
-                        className='bg-blue-600 text-white px-4 rounded hover:bg-blue-700'
-                    >
-                        Save
-                    </button>
+                {/* Profile Info Card - Full Width */}
+                <div className='mb-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+                        <div>
+                            <p className='text-xs text-gray-500 dark:text-gray-400 mb-1'>
+                                Name
+                            </p>
+                            <p className='text-base text-gray-900 dark:text-gray-100'>
+                                {user?.name}
+                            </p>
+                        </div>
+                        <div>
+                            <p className='text-xs text-gray-500 dark:text-gray-400 mb-1'>
+                                Email
+                            </p>
+                            <p className='text-base text-gray-900 dark:text-gray-100'>
+                                {user?.email}
+                            </p>
+                        </div>
+                        <div>
+                            <p className='text-xs text-gray-500 dark:text-gray-400 mb-1'>
+                                Phone
+                            </p>
+                            <p className='text-base text-gray-900 dark:text-gray-100'>
+                                {user?.phone || 'Not Added'}
+                            </p>
+                        </div>
+                        <div>
+                            <p className='text-xs text-gray-500 dark:text-gray-400 mb-1'>
+                                Role
+                            </p>
+                            <p className='text-base text-gray-900 dark:text-gray-100 capitalize'>
+                                {user?.role}
+                            </p>
+                        </div>
+                        <div>
+                            <p className='text-xs text-gray-500 dark:text-gray-400 mb-1'>
+                                Status
+                            </p>
+                            <span
+                                className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
+                                    user?.isActive
+                                        ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400'
+                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+                                }`}
+                            >
+                                {user?.isActive ? 'Active' : 'Inactive'}
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            {/* Update Phone */}
-            <div className='rounded-lg shadow p-6 border bg-white dark:bg-gray-800 dark:border-gray-700'>
-                <h2 className='text-lg font-semibold mb-3 text-gray-700 dark:text-gray-200'>
-                    Update Phone
-                </h2>
-                <div className='flex gap-2'>
-                    <input
-                        type='number'
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className='border rounded w-full p-2 focus:ring-1 focus:ring-green-400
-                        bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600'
-                    />
-                    <button
-                        onClick={() => handleUpdate('phone')}
-                        disabled={isUpdating}
-                        className='bg-green-600 text-white px-4 rounded hover:bg-green-700'
-                    >
-                        Save
-                    </button>
-                </div>
-            </div>
-
-            {/* Update Password */}
-            <div className='rounded-lg shadow p-6 border bg-white dark:bg-gray-800 dark:border-gray-700'>
-                <h2 className='text-lg font-semibold mb-3 text-gray-700 dark:text-gray-200'>
-                    Change Password
-                </h2>
-                <div className='space-y-3'>
-                    {/* Old Password */}
-                    <div className='relative'>
-                        <input
-                            type={showOld ? 'text' : 'password'}
-                            placeholder='Old Password'
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            className='border rounded w-full p-2 focus:ring-1 focus:ring-red-400 pr-10
-                            bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600'
-                        />
-                        <button
-                            type='button'
-                            onClick={() => setShowOld(!showOld)}
-                            className='absolute inset-y-0 right-2 flex items-center text-gray-600 dark:text-gray-400 text-xl'
-                        >
-                            {showOld ? <FaEyeSlash /> : <FaEye />}
-                        </button>
+                {/* Update Cards Grid */}
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+                    {/* Update Name */}
+                    <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6'>
+                        <h2 className='text-sm font-medium text-gray-900 dark:text-gray-100 mb-4'>
+                            Update Name
+                        </h2>
+                        <div className='flex gap-3'>
+                            <input
+                                type='text'
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className='flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2.5
+                                text-sm bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100
+                                focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600
+                                focus:border-transparent transition-all'
+                                placeholder='Enter your name'
+                            />
+                            <button
+                                onClick={() => handleUpdate('name')}
+                                disabled={isUpdating}
+                                className='px-6 py-2.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900
+                                text-sm font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200
+                                disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+                            >
+                                Save
+                            </button>
+                        </div>
                     </div>
 
-                    {/* New Password */}
-                    <div className='relative'>
-                        <input
-                            type={showNew ? 'text' : 'password'}
-                            placeholder='New Password'
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            className='border rounded w-full p-2 focus:ring-1 focus:ring-red-400 pr-10
-                            bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600'
-                        />
-                        <button
-                            type='button'
-                            onClick={() => setShowNew(!showNew)}
-                            className='absolute inset-y-0 right-2 flex items-center text-gray-600 dark:text-gray-400 text-xl'
-                        >
-                            {showNew ? <FaEyeSlash /> : <FaEye />}
-                        </button>
+                    {/* Update Phone */}
+                    <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6'>
+                        <h2 className='text-sm font-medium text-gray-900 dark:text-gray-100 mb-4'>
+                            Update Phone
+                        </h2>
+                        <div className='flex gap-3'>
+                            <input
+                                type='text'
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                className='flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2.5
+                                text-sm bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100
+                                focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600
+                                focus:border-transparent transition-all'
+                                placeholder='Enter phone number'
+                            />
+                            <button
+                                onClick={() => handleUpdate('phone')}
+                                disabled={isUpdating}
+                                className='px-6 py-2.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900
+                                text-sm font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200
+                                disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+                            >
+                                Save
+                            </button>
+                        </div>
                     </div>
+                </div>
 
-                    {/* Confirm Password */}
-                    <div className='relative'>
-                        <input
-                            type={showConfirm ? 'text' : 'password'}
-                            placeholder='Confirm New Password'
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            className='border rounded w-full p-2 focus:ring-1 focus:ring-red-400 pr-10
-                            bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-gray-300 dark:border-gray-600'
-                        />
-                        <button
-                            type='button'
-                            onClick={() => setShowConfirm(!showConfirm)}
-                            className='absolute inset-y-0 right-2 flex items-center text-gray-600 dark:text-gray-400 text-xl'
-                        >
-                            {showConfirm ? <FaEyeSlash /> : <FaEye />}
-                        </button>
+                {/* Change Password - Full Width */}
+                <div className='mt-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6'>
+                    <h2 className='text-sm font-medium text-gray-900 dark:text-gray-100 mb-4'>
+                        Change Password
+                    </h2>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                        {/* Old Password */}
+                        <div className='relative'>
+                            <input
+                                type={showOld ? 'text' : 'password'}
+                                placeholder='Old Password'
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                                className='w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2.5 pr-10
+                                text-sm bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100
+                                focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600
+                                focus:border-transparent transition-all'
+                            />
+                            <button
+                                type='button'
+                                onClick={() => setShowOld(!showOld)}
+                                className='absolute inset-y-0 right-3 flex items-center text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
+                            >
+                                {showOld ? (
+                                    <FaEyeSlash size={16} />
+                                ) : (
+                                    <FaEye size={16} />
+                                )}
+                            </button>
+                        </div>
+
+                        {/* New Password */}
+                        <div className='relative'>
+                            <input
+                                type={showNew ? 'text' : 'password'}
+                                placeholder='New Password'
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                className='w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2.5 pr-10
+                                text-sm bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100
+                                focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600
+                                focus:border-transparent transition-all'
+                            />
+                            <button
+                                type='button'
+                                onClick={() => setShowNew(!showNew)}
+                                className='absolute inset-y-0 right-3 flex items-center text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
+                            >
+                                {showNew ? (
+                                    <FaEyeSlash size={16} />
+                                ) : (
+                                    <FaEye size={16} />
+                                )}
+                            </button>
+                        </div>
+
+                        {/* Confirm Password */}
+                        <div className='relative'>
+                            <input
+                                type={showConfirm ? 'text' : 'password'}
+                                placeholder='Confirm New Password'
+                                value={confirmPassword}
+                                onChange={(e) =>
+                                    setConfirmPassword(e.target.value)
+                                }
+                                className='w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2.5 pr-10
+                                text-sm bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100
+                                focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600
+                                focus:border-transparent transition-all'
+                            />
+                            <button
+                                type='button'
+                                onClick={() => setShowConfirm(!showConfirm)}
+                                className='absolute inset-y-0 right-3 flex items-center text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
+                            >
+                                {showConfirm ? (
+                                    <FaEyeSlash size={16} />
+                                ) : (
+                                    <FaEye size={16} />
+                                )}
+                            </button>
+                        </div>
                     </div>
 
                     <button
                         onClick={() => handleUpdate('password')}
                         disabled={isUpdating}
-                        className='bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700'
+                        className='mt-4 px-6 py-2.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900
+                        text-sm font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200
+                        disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
                     >
                         Change Password
                     </button>
