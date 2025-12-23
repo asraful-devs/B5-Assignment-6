@@ -55,9 +55,11 @@ export default function ServiceHero() {
 
                     {/* Buttons */}
                     <div className='flex gap-4 pt-4'>
-                        <Button className='bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg'>
-                            VIEW PACKAGES
-                        </Button>
+                        <a href='/about/prices-plans' className=''>
+                            <Button className='bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg'>
+                                VIEW PACKAGES
+                            </Button>
+                        </a>
                         <Button
                             variant='outline'
                             className='border-gray-300 px-6 py-3 rounded-xl font-semibold shadow-sm'

@@ -62,18 +62,18 @@ const Capabilities = () => {
                 {capabilities.map((cap, index) => (
                     <div
                         key={index}
-                        className={`${cap.bg} shadow-lg rounded-lg p-6 flex flex-col items-center text-center hover:shadow-xl transition`}
+                        className={`${cap.bg} shadow-lg rounded-lg p-6 flex flex-col items-center text-center hover:shadow-xl transition h-full`}
                     >
                         <div className='mb-4'>{cap.icon}</div>
                         <h3 className='text-xl font-semibold mb-3 text-gray-800 dark:text-gray-100'>
                             {cap.role}
                         </h3>
-                        <ul className='list-disc text-left list-inside space-y-2 text-gray-700 dark:text-gray-300'>
+                        <ul className='list-disc text-left list-inside space-y-2 text-gray-700 dark:text-gray-300 flex-grow'>
                             {cap.permissions.map((perm, i) => (
                                 <li key={i}>{perm}</li>
                             ))}
                         </ul>
-                        <button className='mt-10 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition'>
+                        <button className=' mt-8 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition'>
                             Learn More
                         </button>
                     </div>
