@@ -4,6 +4,7 @@ import { role } from '../Constants/role';
 import DashboardLayout from '../Layout/DashboardLayout';
 import AboutPage from '../Page/AboutPage';
 import AchievementsPage from '../Page/AchievementsPage';
+import ContactPage from '../Page/ContactPage';
 import DrivePage from '../Page/DrivePage';
 import FAQPage from '../Page/FAQPage';
 import FeaturesPage from '../Page/FeaturesPage';
@@ -18,6 +19,7 @@ import type { TRole } from '../Types/Index';
 import { generateRoutes } from '../Utils/generateRoutes';
 import { withAuth } from '../Utils/withAuth';
 import { adminSidebarItems } from './adminSidebarItems';
+import DashboardRedirect from './DashboardRedirect';
 import DrivePrivateRoute from './DrivePrivateRoute';
 import { driverSidebarItems } from './driverSidebarItems';
 import RidePrivateRoute from './RidePrivateRoute';
@@ -37,24 +39,33 @@ export const router = createBrowserRouter([
                 path: 'features',
             },
             {
-                Component: AboutPage,
+                Component: ContactPage,
+                path: 'contact',
+            },
+            {
                 path: 'about',
-            },
-            {
-                Component: OurTeam,
-                path: 'about/our-team',
-            },
-            {
-                Component: FAQPage,
-                path: 'about/faq',
-            },
-            {
-                Component: AchievementsPage,
-                path: 'about/achievements',
-            },
-            {
-                Component: PricePage,
-                path: 'about/prices-plans',
+                children: [
+                    {
+                        Component: AboutPage,
+                        index: true,
+                    },
+                    {
+                        Component: OurTeam,
+                        path: 'our-team',
+                    },
+                    {
+                        Component: FAQPage,
+                        path: 'faq',
+                    },
+                    {
+                        Component: AchievementsPage,
+                        path: 'achievements',
+                    },
+                    {
+                        Component: PricePage,
+                        path: 'prices-plans',
+                    },
+                ],
             },
             {
                 Component: UnauthorizedPage,
@@ -79,6 +90,10 @@ export const router = createBrowserRouter([
                 ],
             },
         ],
+    },
+    {
+        path: '/dashboard',
+        Component: DashboardRedirect,
     },
     {
         Component: withAuth(DashboardLayout, role.admin as TRole),

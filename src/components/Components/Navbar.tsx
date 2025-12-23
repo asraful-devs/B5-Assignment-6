@@ -15,7 +15,7 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { role } from '../../Constants/role';
 import {
     authApi,
@@ -31,6 +31,7 @@ const navigationLinks = [
     { href: '/ride', label: 'Ride', role: role.rider },
     { href: '/drive', label: 'Drive', role: role.driver },
     { href: '/features', label: 'Features', role: 'PUBLIC' },
+    { href: '/contact', label: 'Contact', role: 'PUBLIC' },
 ];
 
 // Mega Menu for About
@@ -68,6 +69,7 @@ export default function Navbar() {
     const dispatch = useAppDispatch();
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [isAboutOpen, setIsAboutOpen] = useState(false);
+    const location = useLocation();
 
     const user = data?.data?.data;
     const isLoggedIn = !!user?.email;
@@ -227,7 +229,15 @@ export default function Navbar() {
                                         onOpenChange={setIsAboutOpen}
                                     >
                                         <PopoverTrigger asChild>
-                                            <button className='text-muted-foreground hover:text-primary border-b-primary hover:border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 px-3 font-medium hover:bg-transparent text-sm inline-flex items-center gap-1.5'>
+                                            <button
+                                                className={`h-full justify-center rounded-none border-y-2 py-1.5 px-3 font-medium hover:bg-transparent text-sm inline-flex items-center gap-1.5 transition-colors ${
+                                                    location.pathname.startsWith(
+                                                        '/about'
+                                                    )
+                                                        ? 'text-primary border-b-primary'
+                                                        : 'text-muted-foreground border-transparent hover:text-primary'
+                                                }`}
+                                            >
                                                 About Us
                                                 <svg
                                                     width={14}

@@ -18,7 +18,7 @@ export const adminSidebarItems: ISidebarItem[] = [
             },
             {
                 title: 'Me',
-                url: '/dashboard/me',
+                url: '/dashboard/admin/me',
                 component: MePage,
             },
         ],
