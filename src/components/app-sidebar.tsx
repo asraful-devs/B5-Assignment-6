@@ -24,6 +24,7 @@ import { useUserInfoQuery } from '../Redux/Features/Auth/auth.api';
 import { adminSidebarItems } from '../Routes/adminSidebarItems';
 import { driverSidebarItems } from '../Routes/driverSidebarItems';
 import { riderSidebarItems } from '../Routes/riderSideBarItems';
+import { ModeToggle } from './Components/mode-toggle';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const { data: userInfo, isLoading } = useUserInfoQuery(undefined);
@@ -95,6 +96,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarContent>
+            <SidebarGroup className='mt-auto border-t py-4'>
+                <ModeToggle />
+            </SidebarGroup>
             <SidebarRail />
         </Sidebar>
     );

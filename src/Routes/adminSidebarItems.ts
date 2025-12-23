@@ -2,6 +2,7 @@ import AllDriver from '../Modules/Admin/AllDriver';
 import AllRider from '../Modules/Admin/AllRider';
 import AllUser from '../Modules/Admin/AllUser';
 import Analytics from '../Modules/Admin/Analytics';
+import ContactMessages from '../Modules/Admin/ContactMessages';
 import DriverAnalytic from '../Modules/Admin/DriverAnalytic';
 import RideAnalytics from '../Modules/Admin/RideAnalytic';
 import MePage from '../Page/MePage';
@@ -88,6 +89,16 @@ export const adminSidebarItems: ISidebarItem[] = [
                 title: 'All Drivers',
                 url: '/dashboard/admin/all-drivers',
                 component: AllDriver,
+            },
+        ],
+    },
+    {
+        title: 'Contact Messages',
+        items: [
+            {
+                title: 'Contact Messages',
+                url: '/dashboard/admin/contact-messages',
+                component: ContactMessages,
             },
         ],
     },
