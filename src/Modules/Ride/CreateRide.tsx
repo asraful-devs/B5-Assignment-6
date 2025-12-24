@@ -61,21 +61,12 @@ const CreateRide = () => {
         console.log('Ride Data:', rideData);
 
         try {
-            await createRide(rideData)
-                .unwrap()
-                .then(() => {
-                    toast.success('Ride created successfully');
-                })
-                .catch((error) => {
-                    console.error('Error creating ride:', error);
-                    toast.error('Failed to create ride');
-                });
+            const result = await createRide(rideData).unwrap();
+            console.log(result, 'create ride');
+            toast.success('Ride created successfully');
         } catch (error: unknown) {
-            if (error instanceof Error) {
-                toast.error(`An error occurred: ${error.message}`);
-            } else {
-                toast.error('An unknown error occurred');
-            }
+            console.error('Error creating ride:', error);
+            toast.error('Failed to create ride');
         }
 
         event.currentTarget.reset();

@@ -11,6 +11,10 @@ import FeaturesPage from '../Page/FeaturesPage';
 import HomePage from '../Page/HomePage';
 import LoginPage from '../Page/LoginPage';
 import OurTeam from '../Page/OurTeam';
+import PaymentCancelPage from '../Page/PaymentCancelPage'; // ✅ Payment Cancel Page
+import PaymentFailPage from '../Page/PaymentFailPage'; // ✅ Payment Fail Page
+import Paymentpage from '../Page/Paymentpage';
+import PaymentSuccessPage from '../Page/PaymentSuccessPage'; // ✅ Payment Success Page
 import PricePage from '../Page/PricePage';
 import RegisterPage from '../Page/RegisterPage';
 import RidePage from '../Page/RidePage';
@@ -71,6 +75,28 @@ export const router = createBrowserRouter([
                 Component: UnauthorizedPage,
                 path: 'unauthorized',
             },
+            {
+                path: 'payment',
+                children: [
+                    {
+                        Component: Paymentpage,
+                        index: true,
+                    },
+                    {
+                        Component: PaymentSuccessPage,
+                        path: 'success',
+                    },
+                    {
+                        Component: PaymentFailPage,
+                        path: 'fail',
+                    },
+                    {
+                        Component: PaymentCancelPage,
+                        path: 'cancel',
+                    },
+                ],
+            },
+
             {
                 Component: RidePrivateRoute,
                 children: [

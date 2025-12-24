@@ -2,6 +2,7 @@ import CreateRideDashboard from '../Modules/Ride/CreateRideDashboard';
 import GetCompletedRide from '../Modules/Ride/GetCompletedRide';
 import GetMyRide from '../Modules/Ride/GetMyRide';
 import RiderAnalytics from '../Modules/Ride/RiderAnalytics';
+import RiderPaymentView from '../Modules/Ride/RiderPaymentView';
 import MePage from '../Page/MePage';
 import type { ISidebarItem } from '../Types/Index';
 
@@ -23,6 +24,11 @@ export const riderSidebarItems: ISidebarItem[] = [
                 title: 'Get Rides',
                 url: '/dashboard/rider/get-rides',
                 component: GetMyRide,
+            },
+            {
+                title: 'Payments',
+                url: '/dashboard/rider/payments',
+                component: RiderPaymentView,
             },
             {
                 title: 'Get Completed Rides',

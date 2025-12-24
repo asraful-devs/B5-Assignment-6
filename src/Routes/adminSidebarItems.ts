@@ -4,6 +4,7 @@ import AllUser from '../Modules/Admin/AllUser';
 import Analytics from '../Modules/Admin/Analytics';
 import ContactMessages from '../Modules/Admin/ContactMessages';
 import DriverAnalytic from '../Modules/Admin/DriverAnalytic';
+import AdminPaymentHistory from '../Modules/Admin/PaymentHistory'; // ✅ Admin payment component import করছি
 import RideAnalytics from '../Modules/Admin/RideAnalytic';
 import MePage from '../Page/MePage';
 import type { ISidebarItem } from '../Types/Index';
@@ -59,21 +60,6 @@ export const adminSidebarItems: ISidebarItem[] = [
                 url: '/dashboard/admin/all-riders',
                 component: AllRider,
             },
-            // {
-            //     title: 'Create Ride',
-            //     url: '/dashboard/create-ride',
-            //     component: CreateRide,
-            // },
-            // {
-            //     title: 'Get My Ride',
-            //     url: '/dashboard/get-my-ride',
-            //     component: GetMyRide,
-            // },
-            // {
-            //     title: 'Get Completed Ride',
-            //     url: '/dashboard/get-completed-ride',
-            //     component: GetCompletedRide,
-            // },
         ],
     },
 
@@ -92,6 +78,18 @@ export const adminSidebarItems: ISidebarItem[] = [
             },
         ],
     },
+
+    {
+        title: 'Payment Management',
+        items: [
+            {
+                title: 'All Payments',
+                url: '/dashboard/admin/payment-history',
+                component: AdminPaymentHistory,
+            },
+        ],
+    },
+
     {
         title: 'Contact Messages',
         items: [

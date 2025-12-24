@@ -1,46 +1,50 @@
-import type {
-    JSXElementConstructor,
-    Key,
-    ReactElement,
-    ReactNode,
-    ReactPortal,
-} from 'react';
-import { useGetAllRideQuery } from '../../Redux/Features/Ride/ride.api';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useGetAllPaymentsQuery } from '@/Redux/Features/Payment/payment.api';
 
 const Earning = () => {
-    const { data, isLoading } = useGetAllRideQuery(undefined);
-    const rides = data?.data?.result || [];
+    const { data, isLoading, error } = useGetAllPaymentsQuery(undefined);
+    const payments = data?.data || [];
 
     if (isLoading) {
         return (
             <div className='p-6 text-center text-gray-500 dark:text-gray-400'>
-                Loading Driver analytics...
+                Loading payment analytics...
             </div>
         );
     }
 
-    if (!rides || rides.length === 0) {
+    if (error) {
+        return (
+            <div className='p-6 text-center text-red-500 dark:text-red-400'>
+                Error loading payments:{' '}
+                {(error as any)?.data?.message || 'Unknown error'}
+            </div>
+        );
+    }
+
+    if (!payments || payments.length === 0) {
         return (
             <div className='p-6 text-center text-gray-500 dark:text-gray-400'>
-                No rides found 🚫
+                No payments found 🚫
             </div>
         );
     }
 
-    // Stats Calculation
-    const completedRides = rides.filter(
-        (r: { status: string }) => r.status === 'COMPLETED'
-    ).length;
-    const cancelledRides = rides.filter(
-        (r: { status: string }) => r.status === 'CANCELLED'
-    ).length;
-    const totalPayment = rides.reduce(
-        (sum: number, ride: { status: string; payment: number }) =>
-            ride.status !== 'CANCELLED' ? sum + (ride.payment || 0) : sum,
+    // ✅ Stats Calculation from payments
+    const paidPayments = payments.filter(
+        (p: { status: string }) => p.status === 'PAID'
+    );
+    const failedPayments = payments.filter(
+        (p: { status: string }) => p.status === 'FAILED'
+    );
+    const totalEarnings = paidPayments.reduce(
+        (sum: number, p: { amount: number }) => sum + (p.amount || 0),
         0
     );
     const averageEarning =
-        completedRides > 0 ? (totalPayment / completedRides).toFixed(2) : 0;
+        paidPayments.length > 0
+            ? (totalEarnings / paidPayments.length).toFixed(2)
+            : 0;
 
     return (
         <div className='p-6 space-y-6 rounded-3xl bg-gray-50 dark:bg-black text-gray-800 dark:text-gray-100 min-h-screen'>
@@ -55,34 +59,34 @@ const Earning = () => {
             {/* Stats Cards */}
             <div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
                 <div className='bg-white dark:bg-gray-800 p-4 shadow rounded-lg text-center'>
-                    <h3 className='text-lg font-semibold'>Completed</h3>
+                    <h3 className='text-lg font-semibold'>Total Payments</h3>
                     <p className='text-2xl font-bold text-green-600 dark:text-green-400'>
-                        {completedRides}
+                        {paidPayments.length}
                     </p>
                 </div>
                 <div className='bg-white dark:bg-gray-800 p-4 shadow rounded-lg text-center'>
-                    <h3 className='text-lg font-semibold'>Cancelled</h3>
+                    <h3 className='text-lg font-semibold'>Failed Payments</h3>
                     <p className='text-2xl font-bold text-red-500 dark:text-red-400'>
-                        {cancelledRides}
+                        {failedPayments.length}
                     </p>
                 </div>
                 <div className='bg-white dark:bg-gray-800 p-4 shadow rounded-lg text-center'>
                     <h3 className='text-lg font-semibold'>Total Earnings</h3>
                     <p className='text-2xl font-bold text-blue-600 dark:text-blue-400'>
-                        ${totalPayment}
+                        {totalEarnings} TK
                     </p>
                 </div>
                 <div className='bg-white dark:bg-gray-800 p-4 shadow rounded-lg text-center'>
-                    <h3 className='text-lg font-semibold'>Avg. Per Ride</h3>
+                    <h3 className='text-lg font-semibold'>Avg. Payment</h3>
                     <p className='text-2xl font-bold text-purple-600 dark:text-purple-400'>
-                        ${averageEarning}
+                        {averageEarning} TK
                     </p>
                 </div>
             </div>
 
-            {/* Recent Rides Table */}
+            {/* Recent Payments Table */}
             <div className='bg-white dark:bg-gray-800 shadow rounded-lg p-4'>
-                <h3 className='text-lg font-semibold mb-4'>Recent Rides</h3>
+                <h3 className='text-lg font-semibold mb-4'>Recent Payments</h3>
                 <div className='overflow-x-auto'>
                     <table className='w-full text-left border-collapse'>
                         <thead>
@@ -91,139 +95,69 @@ const Earning = () => {
                                     Date
                                 </th>
                                 <th className='p-3 border border-gray-200 dark:border-gray-700'>
-                                    From → To
+                                    User
+                                </th>
+                                <th className='p-3 border border-gray-200 dark:border-gray-700'>
+                                    Pickup → Drop
+                                </th>
+                                <th className='p-3 border border-gray-200 dark:border-gray-700'>
+                                    Amount
                                 </th>
                                 <th className='p-3 border border-gray-200 dark:border-gray-700'>
                                     Status
                                 </th>
-                                <th className='p-3 border border-gray-200 dark:border-gray-700'>
-                                    Payment
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {rides.slice(0, 7).map(
-                                (
-                                    ride: {
-                                        date: string | number | Date;
-                                        pickupLocation:
-                                            | string
-                                            | number
-                                            | bigint
-                                            | boolean
-                                            | ReactElement<
-                                                  unknown,
-                                                  | string
-                                                  | JSXElementConstructor<unknown>
-                                              >
-                                            | Iterable<ReactNode>
-                                            | ReactPortal
-                                            | Promise<
-                                                  | string
-                                                  | number
-                                                  | bigint
-                                                  | boolean
-                                                  | ReactPortal
-                                                  | ReactElement<
-                                                        unknown,
-                                                        | string
-                                                        | JSXElementConstructor<unknown>
-                                                    >
-                                                  | Iterable<ReactNode>
-                                                  | null
-                                                  | undefined
-                                              >
-                                            | null
-                                            | undefined;
-                                        dropLocation:
-                                            | string
-                                            | number
-                                            | bigint
-                                            | boolean
-                                            | ReactElement<
-                                                  unknown,
-                                                  | string
-                                                  | JSXElementConstructor<unknown>
-                                              >
-                                            | Iterable<ReactNode>
-                                            | ReactPortal
-                                            | Promise<
-                                                  | string
-                                                  | number
-                                                  | bigint
-                                                  | boolean
-                                                  | ReactPortal
-                                                  | ReactElement<
-                                                        unknown,
-                                                        | string
-                                                        | JSXElementConstructor<unknown>
-                                                    >
-                                                  | Iterable<ReactNode>
-                                                  | null
-                                                  | undefined
-                                              >
-                                            | null
-                                            | undefined;
-                                        status:
-                                            | string
-                                            | number
-                                            | bigint
-                                            | boolean
-                                            | ReactElement<
-                                                  unknown,
-                                                  | string
-                                                  | JSXElementConstructor<unknown>
-                                              >
-                                            | Iterable<ReactNode>
-                                            | Promise<
-                                                  | string
-                                                  | number
-                                                  | bigint
-                                                  | boolean
-                                                  | ReactPortal
-                                                  | ReactElement<
-                                                        unknown,
-                                                        | string
-                                                        | JSXElementConstructor<unknown>
-                                                    >
-                                                  | Iterable<ReactNode>
-                                                  | null
-                                                  | undefined
-                                              >
-                                            | null
-                                            | undefined;
-                                        payment: number;
-                                    },
-                                    i: Key | null | undefined
-                                ) => (
-                                    <tr
-                                        key={i}
-                                        className='hover:bg-gray-50 dark:hover:bg-gray-700 transition'
-                                    >
-                                        <td className='p-3 border border-gray-200 dark:border-gray-700'>
-                                            {new Date(
-                                                ride.date
-                                            ).toLocaleDateString()}
-                                        </td>
-                                        <td className='p-3 border border-gray-200 dark:border-gray-700'>
-                                            {ride.pickupLocation} →{' '}
-                                            {ride.dropLocation}
-                                        </td>
-                                        <td
-                                            className={`p-3 border border-gray-200 dark:border-gray-700 font-semibold ${
-                                                ride.status === 'COMPLETED'
-                                                    ? 'text-green-600 dark:text-green-400'
-                                                    : 'text-red-500 dark:text-red-400'
-                                            }`}
+                            {payments
+                                .slice(0, 10)
+                                .map(
+                                    (payment: {
+                                        _id: string;
+                                        createdAt: string;
+                                        userName: string;
+                                        pickup: string;
+                                        drop: string;
+                                        amount: number;
+                                        status: string;
+                                    }) => (
+                                        <tr
+                                            key={payment._id}
+                                            className='border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
                                         >
-                                            {ride.status}
-                                        </td>
-                                        <td className='p-3 border border-gray-200 dark:border-gray-700'>
-                                            ${ride.payment || 0}
-                                        </td>
-                                    </tr>
-                                )
-                            )}
+                                            <td className='p-3'>
+                                                {new Date(
+                                                    payment.createdAt
+                                                ).toLocaleDateString()}
+                                            </td>
+                                            <td className='p-3'>
+                                                {payment.userName}
+                                            </td>
+                                            <td className='p-3 text-sm text-gray-600 dark:text-gray-400'>
+                                                {payment.pickup} →{' '}
+                                                {payment.drop}
+                                            </td>
+                                            <td className='p-3 font-semibold'>
+                                                {payment.amount} TK
+                                            </td>
+                                            <td className='p-3'>
+                                                <span
+                                                    className={`px-3 py-1 rounded-full text-xs font-medium ${
+                                                        payment.status ===
+                                                        'PAID'
+                                                            ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
+                                                            : payment.status ===
+                                                              'FAILED'
+                                                            ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+                                                            : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
+                                                    }`}
+                                                >
+                                                    {payment.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    )
+                                )}
                         </tbody>
                     </table>
                 </div>

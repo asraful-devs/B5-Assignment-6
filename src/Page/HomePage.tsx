@@ -1,6 +1,8 @@
 import { Outlet } from 'react-router';
+import FAQ from '../Modules/FAQ';
 import { Available } from '../Modules/Home/Available';
 import Choose from '../Modules/Home/Choose';
+import EasyPayment from '../Modules/Home/EasyPayment';
 import { HeroSection } from '../Modules/Home/HeroSection';
 import HowItWork from '../Modules/Home/HowItWork';
 import LoginSection from '../Modules/Home/LoginSection';
@@ -14,8 +16,9 @@ const HomePage = () => {
             <Choose />
             <LoginSection />
             <HowItWork />
+            <EasyPayment />
             <Available />
-            {/* <FAQ /> */}
+            <FAQ />
             <Review />
         </div>
     );
