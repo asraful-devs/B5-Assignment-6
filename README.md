@@ -1,22 +1,22 @@
-# B5-Assignment-5
+# 🚖 RideShareX - Frontend
 
-# 🚖 Ride Management System – Frontend
+A modern ride-sharing platform frontend built with React and TypeScript. Features role-based authentication, real-time dashboards, SSL Commerz payment integration, and analytics.
 
-## 📌 Project Description
+## 📋 Overview
 
-This is a **simple yet functional Ride Sharing Platform** built with **React**.
-The application includes **role-based authentication** and provides three distinct user roles:
+RideShareX provides three distinct user roles:
 
--   **Admin**
--   **Driver**
--   **Rider**
+-   🛡️ **Admin** - Platform management & analytics
+-   🚗 **Driver** - Accept and manage rides
+-   👤 **Rider** - Request and track rides
 
-By default, whenever a new user signs up or logs in, they are assigned the **Rider** role.
-Only the **Admin** has the authority to change user roles.
+New users default to **Rider** role. Only **Admin** can change user roles. Modern, responsive UI optimized for all devices.
 
-The UI/UX is designed to be modern, responsive, and intuitive across all devices.
+## 🔗 Live Links
 
----
+🔗 **Frontend:** https://ride-share-x-client-site.vercel.app
+
+🔗 **Backend API:** https://ridesharex-server-site.onrender.com
 
 ## 👥 Role-Based Access
 
@@ -79,163 +79,110 @@ The UI/UX is designed to be modern, responsive, and intuitive across all devices
 
 ## 🚀 Features
 
--   **Public Landing Page** introducing the ride booking system
--   **Role-Based Dashboards** for Riders, Drivers, and Admins
--   **Real-Time State Management** with Redux Toolkit & RTK Query
--   **Secure Authentication** with JWT
--   **Responsive UI** built with Tailwind CSS
--   **Optional Enhancements**: charts, analytics, and live notifications
+## 🎯 Core Features
 
----
+### 👤 Rider Dashboard
 
-## 📂 Project Structure (Planned)
+-   📝 Create ride requests
+-   📊 Track ride status (pending, accepted, completed, cancelled)
+-   💳 Payment processing with SSL Commerz
+-   📈 Ride analytics and expense tracking
+-   ⏱️ Real-time ride updates
+
+### 🚗 Driver Dashboard
+
+-   🗺️ Browse available rides
+-   ✅ Accept/reject rides
+-   📍 Track ride locations
+-   💵 Earnings overview
+-   📊 Daily/Weekly/Monthly analytics
+
+### 🛡️ Admin Dashboard
+
+-   👥 User management (view, edit, delete)
+-   🔄 Change user roles
+-   📈 Platform-wide analytics
+-   💰 Revenue tracking
+-   📊 System statistics & reports
+
+## 💳 Payment System - SSL Commerz
+
+SSL Commerz is Bangladesh's leading payment gateway integrated for secure ride payments:
+
+### Payment Flow
+
+1. 🚕 **Ride Created** - Rider creates ride with amount
+2. 💳 **Payment Initiated** - Click pay button
+3. 🔗 **Gateway Redirect** - SSL Commerz checkout page
+4. ✅ **Payment Complete** - User confirms payment
+5. 🎉 **Auto Confirmation** - Ride status updates instantly
+
+### Supported Payment Methods
+
+-   🏦 Debit/Credit Cards
+-   💰 Mobile Banking (bKash, Nagad, Rocket)
+-   🏧 Bank Transfer
+-   🎁 Digital Wallets
+
+### Security Features
+
+-   🔐 End-to-end encryption
+-   ✔️ Transaction verification
+-   📄 Invoice generation
+-   🔄 Automatic reconciliation
+
+## 🔒 Authentication & Security
+
+-   🔑 JWT token-based authentication
+-   🔐 Role-based access control (RBAC)
+-   🛡️ Protected routes and API endpoints
+-   🔄 Token refresh mechanism
+-   📝 Password encryption with bcrypt
+
+## ⚙️ Tech Stack
+
+| Component           | Technology                |
+| ------------------- | ------------------------- |
+| 🎨 Framework        | React + TypeScript        |
+| 📦 State Management | Redux Toolkit + RTK Query |
+| 🛣️ Routing          | React Router              |
+| 🎨 Styling          | Tailwind CSS              |
+| 🔗 HTTP Client      | Axios                     |
+| 💳 Payment          | SSL Commerz API           |
+| 📊 Charts           | Recharts                  |
+| 🔔 Notifications    | React Hot Toast           |
+| 🔐 Authentication   | JWT + bcrypt              |
+
+## ✨ Key Highlights
+
+-   ⚡ **Real-Time Updates** - Live ride status & notifications
+-   📊 **Advanced Analytics** - Charts & statistics for all roles
+-   📱 **Responsive Design** - Mobile, tablet, desktop optimized
+-   🔒 **Security First** - JWT auth + RBAC
+-   💳 **SSL Commerz Integration** - Secure payment processing
+-   🎨 **Modern UI/UX** - Professional & intuitive interface
+
+## 📂 Project Structure
 
 ```
-.
-├── src
-│   ├── assets/
-│   │   └── # (Images, fonts, svgs, etc.)
-│   │
-│   ├── components/
-│   │   ├── ui/
-│   │   │   ├── app-sidebar.tsx
-│   │   │   ├── carousel-01.tsx
-│   │   │   ├── loading.tsx
-│   │   │   └── logo.tsx
-│   │   └── # (Other shared, non-UI components)
-│   │
-│   ├── Config/
-│   │   └── # (Configuration files, e.g., firebase.ts)
-│   │
-│   ├── Constants/
-│   │   └── # (Constant values, e.g., routes.ts, api-endpoints.ts)
-│   │
-│   ├── hooks/
-│   │   └── # (Custom React hooks, e.g., useAuth.ts)
-│   │
-│   ├── Layout/
-│   │   └── # (Main layout components, e.g., MainLayout.tsx)
-│   │
-│   ├── lib/
-│   │   └── # (Utility functions and libraries, e.g., utils.ts)
-│   │
-│   ├── Modules/
-│   │   ├── About/
-│   │   ├── Admin/
-│   │   ├── Authentication/
-│   │   ├── Drive/
-│   │   ├── Features/
-│   │   ├── Home/
-│   │   ├── Ride/
-│   │   └── FAQ.tsx
-│   │
-│   ├── Page/
-│   │   └── # (Page-level components that assemble modules)
-│   │
-│   ├── Provider/
-│   │   └── # (React Context providers, e.g., ThemeProvider.tsx)
-│   │
-│   ├── Redux/
-│   │   ├── Features/
-│   │   │   ├── Auth/
-│   │   │   │   └── auth.api.ts
-│   │   │   ├── Driver/
-│   │   │   │   └── driver.api.ts
-│   │   │   └── Ride/
-│   │   │       └── ride.api.ts
-│   │   ├── axiosBaseQuery.ts
-│   │   ├── baseApi.ts
-│   │   ├── hooks.ts
-│   │   └── store.ts
-│   │
-│   ├── Routes/
-│   │   └── # (Routing configuration, e.g., AppRoutes.tsx)
-│   │
-│   ├── Types/
-│   │   └── # (TypeScript type definitions and interfaces)
-│   │
-│   ├── App.css
-│   ├── App.tsx
-│   ├── index.css
-│   └── # (Other root files like main.tsx or vite-env.d.ts)
-│
-├── .gitignore
-├── package.json
-├── README.md
-└── tsconfig.json
-
+src/
+├── assets/                 # Images, fonts, SVGs
+├── components/             # Reusable UI components
+├── Config/                 # Configuration files
+├── Constants/              # Routes, API endpoints
+├── hooks/                  # Custom React hooks
+├── Layout/                 # Layout components
+├── lib/                    # Utility functions
+├── Modules/                # Feature modules
+│   ├── Admin/              # Admin dashboard
+│   ├── Authentication/     # Auth pages
+│   ├── Driver/             # Driver features
+│   ├── Ride/               # Ride management
+│   └── Home/               # Landing page
+├── Page/                   # Page-level components
+├── Provider/               # Context providers
+├── Redux/                  # Redux store & APIs
+├── Routes/                 # Route configuration
+├── Types/                  # TypeScript types
+└── Utils/                  # Helper functions
 ```
-
-## 🚖 Rider Features
-
-### 🎯 Ride Management
-
--   Create new rides.
--   View all rides created by the user.
--   Check the status of each ride:
-    -   ✅ Completed
-    -   ❌ Canceled
-    -   ⏳ Pending / Ongoing
--   Update rides when necessary.
-
-### 📊 Rider Dashboard
-
--   View the total number of rides created.
--   Track the number of Completed / Canceled / Pending rides.
--   Manage rides directly from the dashboard.
-
-### 📈 Rider Analytics
-
--   Visual representation of ride data (charts / graphs).
--   Track earnings from rides.
--   Track total expenses.
-
----
-
-## 🚕 Driver Features
-
-### 🎯 Ride Management
-
--   View all available rides.
--   Pick a ride to work on.
--   Cancel or complete picked rides.
--   Track the status of all rides assigned.
-
-### 📊 Driver Dashboard
-
--   Manage rides directly from the dashboard.
--   View counts of Completed / Canceled / Picked rides.
--   Track ride statuses in real-time.
-
-### 📈 Driver Analytics
-
--   Visualize earnings on a daily, weekly, and monthly basis.
--   Track income for a single day, seven days, and one month.
--   View counts of Completed / Canceled / Picked rides graphically.
-
----
-
-## 🛡️ Admin Features
-
-### 🎯 Full System Management
-
--   Perform all actions of a **Rider** and **Driver**.
--   Update user roles (Rider, Driver, Admin).
--   View all users, including Riders and Drivers.
--   Track total system-wide earnings.
--   Delete any user if required.
-
-### 📊 Admin Dashboard & Analytics
-
--   Visualize overall system data effectively.
--   View analytics from Driver information.
--   View analytics from Rider information.
--   Generate comprehensive reports for earnings and ride statuses.
-
----
-
-## 🖥️🌐 Live Demo
-
-### 🌐 Frontend Link : https://assignment-6-one-zeta.vercel.app/api/v1
-
-### 🖥️ Backend Link : https://assignment-5-five-red.vercel.app/api/v1
